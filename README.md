@@ -11,3 +11,4 @@ __Note__: Commit decriptiom should have your name so that it is easy to see the 
 	  I have added the database connection.
 	  Install mongodb and use the test_database.
 
+Checking for magit
