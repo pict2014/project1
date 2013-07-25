@@ -19,32 +19,43 @@ CONSUMER_SECRET='59GVWA6j7RJt1Ntw2cFi57FS91jzRFIk6lbNzH8Cs8'
 
 enc_str= base64.b64encode(CONSUMER_KEY+":"+CONSUMER_SECRET)
 
-
-#param = urllib.urlencode({'q':'@FarOutAkhtar'})
-#conn = httplib.HTTPSConnection("api.twitter.com")
-print "Basic "+enc_str
-
 conn = httplib.HTTPSConnection("api.twitter.com")
+
 #Acquiring the access token
 param = urllib.urlencode({'grant_type':'client_credentials'})
 headers = {"Authorization":"Basic "+enc_str,"Content-type": "application/x-www-form-urlencoded;charset=UTF-8"
 }
 conn.request("POST","/oauth2/token/",param,headers)
 response=conn.getresponse()
-
 payload = response.read()
 access_token=payload[payload.find("n\":\"")+4:payload.find("token_type")-3]
 get_headers={"Authorization":"Bearer "+access_token}
-conn.request("GET","/1.1/trends/place.json?id=1","",get_headers)
+
+##Getting WorldWide Trends 
+conn.request("GET","/1.1/trends/place.json?id=1","",get_headers)  
 get_resp = conn.getresponse()
 sample = get_resp.read()
-#data = json.loads(str(sample))
-print "\n\n--------------------------------Sample------------------------------------\n\n"
+
+##converting the received string in JSON form 
 data = json.loads(str(sample))
-print pp.pprint(data[0]['trends'])
+#print pp.pprint(data[0])
 names = data[0]['trends']
 
+print "-----------------------------Trends-----------------------------------"
 for x in names:
-    print x['name']
 
+    #printing each trending topic/person etc
+    print "\n-----------Tweets for :" + x['name'] + "--------------"
+    conn.request("GET","/1.1/search/tweets.json?q="+str(x['query']),"",get_headers)
+    tweets_resp = conn.getresponse()
+    tweets = tweets_resp.read()
+    tweets_json = json.loads(str(tweets))
+
+    #print pp.pprint(tweets_json)
+    for s in tweets_json['statuses']:
+        #printing names of users and tweets for each trending topic 
+        print s['user']['name']
+        print s['text']+"\n"
+    
+print "\n"
     
