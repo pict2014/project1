@@ -41,18 +41,6 @@ data = json.loads(str(sample))
 names = data[0]['trends']
 
 
-
-
-conn = httplib.HTTPSConnection("api.twitter.com")
-
-conn.request("POST","/oauth2/token/",param,headers)
-response=conn.getresponse()
-
-payload = response.read()
-
-access_token = payload[payload.find("n\":\"")+4:payload.find("token_type")-3]
-get_headers = {"Authorization":"Bearer "+access_token}
-
 print "Currrent trending topics with tweets:"
 
 for val in names:
@@ -62,7 +50,8 @@ for val in names:
     print "-"*50
 
     # generating url for search
-    url = "/1.1/search/tweets.json?q=" + str(val['query'])
+    url = "/1.1/search/tweets.json?q=" + str(val['query'])+"&count=4"
+    print url
     conn.request("GET",url,"",get_headers)
     get_resp = conn.getresponse()
     sample = get_resp.read()
