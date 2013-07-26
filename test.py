@@ -13,12 +13,12 @@ def put_into_database(trendname,screename,text,loc=None):
     try:
         client = MongoClient('localhost', 27017)
         db = client.test_database
-        screen_name = db.posts.find_one({"trend":trendname,"screename":screename,"text":text})
+        screen_name = db.tests.find_one({"trend":trendname,"screename":screename,"text":text})
         if not(screen_name):
             if loc:
-                db.posts.insert({"trend":trendname,"screename":screename,"text":text,"location":loc})
+                db.tests.insert({"trend":trendname,"screename":screename,"text":text,"location":loc})
             else:
-                db.posts.insert({"trend":trendname,"screename":screename,"text":text,"location":"Others"})
+                db.tests.insert({"trend":trendname,"screename":screename,"text":text,"location":"Others"})
             print "-----****Gone into the database"
 
         else:
