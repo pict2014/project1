@@ -65,13 +65,13 @@ if __name__ == "__main__":
         #print str(get_resp.status)
         statuses=get_resp.read()
         data=json.loads(str(statuses))
-        print "---Taking Info for the first time, Will go to database---\n"
-        print "Screen Name: "+data[0]['user']['screen_name']
+        print "---taking info for the first time, will go to database---\n"
+        print "screen name: "+data[0]['user']['screen_name']
         print data[0]['text']+ "\n\n"
-        #user_detail = data[0]['user']
+        user_detail = data[0]['user']
         #print pp.pprint(user_detail)
         db.posts.insert(data[0]['user'])
-       
+        #print data
     #print "--------------------------------------------------Information---------------------------------------------"
     #import pdb; pdb.set_trace()
     
@@ -84,3 +84,4 @@ if __name__ == "__main__":
     
     #print data[0]['user']['screen_name']
     #print pretty
+   
