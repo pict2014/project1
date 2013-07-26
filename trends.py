@@ -17,8 +17,6 @@ CONSUMER_SECRET='59GVWA6j7RJt1Ntw2cFi57FS91jzRFIk6lbNzH8Cs8'
 enc_str= base64.b64encode(CONSUMER_KEY+":"+CONSUMER_SECRET)
 
 
-
-
 conn = httplib.HTTPSConnection("api.twitter.com")
 #Acquiring the access token
 param = urllib.urlencode({'grant_type':'client_credentials'})
@@ -26,6 +24,7 @@ headers = {"Authorization":"Basic "+enc_str,"Content-type": "application/x-www-f
 conn.request("POST","/oauth2/token/",param,headers)
 response=conn.getresponse()
 
+#Response
 payload = response.read()
 access_token=payload[payload.find("n\":\"")+4:payload.find("token_type")-3]
 get_headers={"Authorization":"Bearer "+access_token}
