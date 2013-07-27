@@ -16,15 +16,16 @@ def put_into_database(trendname,screename,text,loc=None):
         screen_name = db.tests.find_one({"trend":trendname,"screename":screename,"text":text})
         if not(screen_name):
             if loc:
-                db.tests.insert({"trend":trendname,"screename":screename,"text":text,"location":loc})
+                db.try1.insert({"trend":trendname,"screename":screename,"text":text,"location":loc})
             else:
-                db.tests.insert({"trend":trendname,"screename":screename,"text":text,"location":"Others"})
+                db.try1.insert({"trend":trendname,"screename":screename,"text":text,"location":"Others"})
             print "-----****Gone into the database"
 
         else:
             print "------****Already present"
     except:
         print "database error"
+
 
 def get_info_for_trends(x,count=None):
     #printing each trending topic/person etc
@@ -47,12 +48,12 @@ def get_info_for_trends(x,count=None):
         location = s['user']['location']
         time_zone = s['user']['time_zone']
         place = s['place']
-        if location:
-            put_into_database(x['name'],s['user']['screen_name'],s['text'],location)
-        elif time_zone:
+        #if location:
+        #    put_into_database(x['name'],s['user']['screen_name'],s['text'],location)
+        if time_zone:
             put_into_database(x['name'],s['user']['screen_name'],s['text'],time_zone)
-        elif place:
-            put_into_database(x['name'],s['user']['screen_name'],s['text'],place)
+        #elif place:
+        #    put_into_database(x['name'],s['user']['screen_name'],s['text'],place)
         else:
             put_into_database(x['name'],s['user']['screen_name'],s['text'])
         i=i+1
