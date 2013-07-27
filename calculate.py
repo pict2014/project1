@@ -11,5 +11,15 @@ import pdb
 client = MongoClient('localhost', 27017)
 db = client.test_database
 data = db.tests.find()
-for d in data:
-    print d
+current_trend=[]
+country=[]
+i=0
+trend_list=db.tests.distinct('trend')
+
+"""for d in data:
+    if d['trend'] not in trend_list:
+        trend_list.append(d['trend'])
+"""
+print trend_list
+        
+    
